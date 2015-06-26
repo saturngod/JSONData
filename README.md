@@ -14,4 +14,4 @@ println(json.get("1.C")) //D
 
 ```
 
-**if Key name include dot (.) , it will not working**
+**Key name include dot (.) , number(0123456) are not working**
