@@ -12,6 +12,13 @@ var json = JSONData(sampleArr)
 println(json.get("0")) //{A = B}
 println(json.get("1.C")) //D
 
+response = ["Hello.K" : ["0" : "Data"]]
+
+println(JSONData(response,separator: "-").get("Hello.K-0")) //Data
 ```
 
-**Key name include dot (.) , number(0123456) are not working**
+If the key is including **.** , please use like following
+
+```swift
+JSONData(response,separator: "-").get("Hello.K-0")
+```

@@ -9,21 +9,28 @@
 import Foundation
 
 class JSONData {
-
+  
   var jsonObject:AnyObject?
+  var sep:String = "."
   
   init(_ obj:AnyObject?) {
     
     jsonObject = obj
+    self.sep = "."
     
   }
   
+  init(_ obj:AnyObject?,separator:String) {
+    jsonObject = obj
+    self.sep = separator
+  }
+  
   func get(query:String) -> AnyObject? {
-
-    var queryArr = split(query) {$0 == "."}
+    
+    var queryArr = query.componentsSeparatedByString(self.sep)
     
     if(queryArr.count == 0) {
-     
+      
       return nil
       
     }
@@ -37,28 +44,31 @@ class JSONData {
       var index:Int = queryArr[0].toInt()!
       lastObj = jsonObject?.objectAtIndex(index)
     }
-  
+    
     
     queryArr.removeAtIndex(0)
     
-
+    
     for name in queryArr {
       if let match = name.rangeOfString("^[0-9]+$", options: .RegularExpressionSearch) {
         var index:Int = name.toInt()!
         if(isNSArray(lastObj)) {
-            lastObj = lastObj?.objectAtIndex(index)
-          }
-          else {
-            lastObj = nil
+          lastObj = lastObj?.objectAtIndex(index)
+        }
+        else if(isNSDictionary(lastObj)) {
+          lastObj = lastObj?.objectForKey(name)
+        }
+        else {
+          lastObj = nil
         }
       }
       else {
         if(isNSDictionary(lastObj)) {
-            lastObj = lastObj?.objectForKey(name)
-          }
-          else {
-            lastObj = nil
-          }
+          lastObj = lastObj?.objectForKey(name)
+        }
+        else {
+          lastObj = nil
+        }
       }
     }
     
