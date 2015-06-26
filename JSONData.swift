@@ -8,10 +8,15 @@
 
 import Foundation
 
-class JSONData {
+class JSONData : Printable {
   
   var jsonObject:AnyObject?
   var sep:String = "."
+  
+  var description: String {
+    return "\(jsonObject)"
+  }
+  
   
   init(_ obj:AnyObject?) {
     
@@ -24,6 +29,9 @@ class JSONData {
     jsonObject = obj
     self.sep = separator
   }
+  
+  
+  
   
   func get(query:String) -> AnyObject? {
     
